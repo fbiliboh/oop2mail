@@ -37,6 +37,7 @@ public class oop2 extends Application {
         root.getChildren().add(borderPane);
 
         Scene scene = new Scene(root, 300, 250);
+              scene.getStylesheets().add(oop2.class.getResource("styling.css").toExternalForm());
 
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
