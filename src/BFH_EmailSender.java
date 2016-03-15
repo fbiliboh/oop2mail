@@ -73,7 +73,7 @@ public class BFH_EmailSender {
     String font = "courier";
     String fontsize = "2";
     String fontcolor = "#F70069";
-    String htmlText = "<font size =\"" + fontsize + "\" face=\"" + font + "\" color=\"" + fontcolor + "\" ><pre>" + eschtml.replaceAll("\\\\u",";&#x").replaceAll("\\\\n", "<br>") + ";"/*oop2.mailTextArea.getText().replaceAll(">", "&gt;").replaceAll("<", "&lt;").replaceAll(">", "&amp;") */+ "</pre></font>";
+    String htmlText = "<font size =\"" + fontsize + "\" face=\"" + font + "\" color=\"" + fontcolor + "\" ><pre>" + eschtml.replaceAll("\\\\u(.)(.)(.)(.)", "&#xd$1$2$3$4;").replaceAll("\\\\n", "&#xa;") + ";"/*oop2.mailTextArea.getText().replaceAll(">", "&gt;").replaceAll("<", "&lt;").replaceAll(">", "&amp;") */+ "</pre></font>";
     mbp1.setContent(htmlText,"text/html");
     mp.addBodyPart(mbp1);
     message.setContent(mp);
