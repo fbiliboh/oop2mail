@@ -12,17 +12,16 @@ and open the template in the editor.
     -fx-background-color: whitesmoke;
 }
 
-
 .button{
     -fx-background-color:
-        /*linear-gradient(#f0ff35, #a9ff00),*/
-            radial-gradient(center 50% -40%, radius 200%, #333333 45%, #000000 50%);
+        linear-gradient(#f0ff35, #a9ff00);
+           /* radial-gradient(center 50% -40%, radius 200%, #333333 45%, #000000 50%);*/
     -fx-border-color: white;
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     /*-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );*/
     -fx-text-fill: #395306;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-opacity: 0.9;
 }
@@ -30,6 +29,12 @@ and open the template in the editor.
 .button:hover{
     -fx-border-color: lightseagreen;
     -fx-border-radius:5;
+}
+
+.vbox {
+
+    -fx-background-color: #2f4f4f;
+    -fx-text-inner-color: black;
 }
 
 #buttonyellowe{
