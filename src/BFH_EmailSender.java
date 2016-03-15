@@ -53,7 +53,7 @@ public class BFH_EmailSender {
 
     // Set the RFC 822 "From" header field using the
     // value of the InternetAddress.getLocalAddress method.
-    message.setFrom(new InternetAddress("dominicstefan.meier@students.bfh.ch"));
+    message.setFrom(new InternetAddress(UserVariables.emailbfh + "@students.bfh.ch"));
 
     // Set the "Subject" header field.
     message.setSubject(subject);

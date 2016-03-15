@@ -135,7 +135,7 @@ public class oop2 extends Application {
         sendButton = new Button();
         sendButton.setText("Send");
         sendButton.setMinSize(50, 60);
-        char[] passwd = "12345678".toCharArray();
+        char[] passwd = UserVariables.passwd.toCharArray();
 
 
         sendButton.setOnAction(event -> {
@@ -155,7 +155,7 @@ public class oop2 extends Application {
 
             } else {
                 try {
-                    BFH_EmailSender.send("meied3", passwd, mailAdress.getText(), mailSubject.getText(), mailTextArea.getText());
+                    BFH_EmailSender.send(UserVariables.user, passwd, mailAdress.getText(), mailSubject.getText(), mailTextArea.getText());
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
