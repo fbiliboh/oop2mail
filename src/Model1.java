@@ -1,11 +1,13 @@
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by Skynet on 15.03.2016.
  */
-class Model1 extends Thread {
+public class Model1 extends Thread {
     protected StringProperty stringProperty;
 
     public Model1() {
@@ -31,8 +33,14 @@ class Model1 extends Thread {
     public void run() {
 
         while (true) {
-            String rcvmsg = oop2.mailTextArea.getText();
+            String rcvmsg = oop2.mailTextArea.getStyle();
+            System.out.println(rcvmsg);
             stringProperty.set(rcvmsg);
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
     }

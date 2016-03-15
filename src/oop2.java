@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class oop2 extends Application {
 
-    protected static TextArea mailTextArea;
+    public static TextArea mailTextArea;
     private Button sendButton;
     private TextField mailAdress, mailSubject;
 
@@ -32,6 +32,8 @@ public class oop2 extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+
+
     }
 
     @Override
@@ -51,6 +53,43 @@ public class oop2 extends Application {
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+
+        Label labelObservable = new Label();
+        Label labelOldvalue = new Label();
+        Label labelNewvalue = new Label();
+
+        Model1 model1 = new Model1();
+
+        model1.stringProperty.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                labelObservable.setText((String) observable.getValue());
+                labelOldvalue.setText((String) oldValue);
+                labelNewvalue.setText((String) newValue);
+
+                if (oldValue.equals(newValue) == false) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            String incoming = newValue.toString();
+                            if (incoming.contains("greenyellow") == true) {
+                                try {
+                                    TimeUnit.MILLISECONDS.sleep(900);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                mailTextArea.setStyle("-fx-font-size: 10px; -fx-btext-alignment: left; -fx-border-color: grey; -fx-border-width: 0px;");
+                                mailTextArea.clear();
+                            }
+                        }
+
+                    });
+                }
+            }
+        });
+        model1.start();
     }
 
     private VBox createCenterGroup() throws MessagingException, ExecutionException, InterruptedException {
@@ -103,6 +142,7 @@ public class oop2 extends Application {
                 }
 
                 mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: greenyellow; -fx-border-width: 3px;");
+                System.out.println("Style: " + mailTextArea.getStyle());
                 mailTextArea.setText("E-Mail Sent!");
                 mailAdress.clear();
                 mailSubject.clear();
@@ -111,40 +151,6 @@ public class oop2 extends Application {
                 }
 
 
-                Label labelObservable = new Label();
-                Label labelOldvalue = new Label();
-                Label labelNewvalue = new Label();
-
-                Model1 model1 = new Model1();
-
-                model1.stringProperty.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                        labelObservable.setText((String) observable.getValue());
-                        labelOldvalue.setText((String) oldValue);
-                        labelNewvalue.setText((String) newValue);
-
-                        if (oldValue.equals(newValue) == false) {
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String incoming = newValue.toString();
-                                    if (incoming.contains("yellowgreen") == true) {
-                                        try {
-                                            TimeUnit.MILLISECONDS.sleep(900);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        mailTextArea.setStyle("-fx-font-size: 10px; -fx-btext-alignment: left; -fx-border-color: grey; -fx-border-width: 0px;");
-                                        mailTextArea.clear();
-                                    }
-                                }
-
-                            });
-                        }
-                    }
-                });
-                model1.start();
 
 
             }
