@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import javax.mail.MessagingException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by fbiliboh on 06.03.2016.
@@ -25,7 +25,8 @@ public class oop2 extends Application {
 
     public static TextArea mailTextArea;
     private Button sendButton;
-    private TextField mailAdress, mailSubject;
+    public static TextField mailAdress, mailSubject;
+    public int hxv = 0;
 
     /**
      * @param args the command line arguments
@@ -74,15 +75,28 @@ public class oop2 extends Application {
                         @Override
                         public void run() {
                             String incoming = newValue.toString();
-                            if (incoming.contains("greenyellow") == true) {
-                                try {
-                                    TimeUnit.MILLISECONDS.sleep(900);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                            if (incoming.contains("-fx-border-color: #C0C0C0;") == false && incoming.contains("-fx-border-color: #c0c0c0;") == false) {
+                                String redhex;
+                                String bluehex;
+                                if(Integer.toHexString(hxv * 3).length() == 1) {
+                                    redhex = new String("0" + Integer.toHexString(hxv * 3));
+                                } else {
+                                    redhex = Integer.toHexString(hxv * 3);
+
                                 }
-                                mailTextArea.setStyle("-fx-font-size: 10px; -fx-btext-alignment: left; -fx-border-color: grey; -fx-border-width: 0px;");
+                                if(hxv == 0) {bluehex = Integer.toHexString(255);} else {bluehex = Integer.toHexString(256 - hxv);}
+
+
+                                String hexborder = new String("-fx-font-size: 23px; -fx-btext-alignment: center; -fx-border-color: #" + redhex + bluehex + redhex + "; -fx-border-width: 3px;");
+                                mailTextArea.setStyle(hexborder);
+                                hxv++;
+
+                            } else {
+                                mailTextArea.setStyle("-fx-font-size: 10px; -fx-text-alignment: left; -fx-border-color: #C0C0C0; -fx-border-width: 0px;");
                                 mailTextArea.clear();
+                                hxv = 0;
                             }
+
                         }
 
                     });
@@ -121,10 +135,15 @@ public class oop2 extends Application {
         sendButton = new Button();
         sendButton.setText("Send");
         sendButton.setMinSize(50, 60);
-        char[] passwd = "123456".toCharArray();
+        char[] passwd = "12345678".toCharArray();
 
 
         sendButton.setOnAction(event -> {
+
+            String emailaddress = oop2.mailAdress.getText();
+
+            //if (Functions.checkEmailAddress(emailaddress)) {
+
             if (mailSubject.getText().length() == 0) {
                 mailSubject.setText("No Subject");
             }
@@ -141,7 +160,7 @@ public class oop2 extends Application {
                     e.printStackTrace();
                 }
 
-                mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: greenyellow; -fx-border-width: 3px;");
+                mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: #00FF00; -fx-border-width: 3px;");
                 System.out.println("Style: " + mailTextArea.getStyle());
                 mailTextArea.setText("E-Mail Sent!");
                 mailAdress.clear();

@@ -1,10 +1,11 @@
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.*;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
 /**
@@ -60,10 +61,22 @@ public class BFH_EmailSender {
     // Set the "To" header field.
     message.setRecipient(javax.mail.Message.RecipientType.TO,
             new InternetAddress(recipient));
-
+      byte[] bytechar = oop2.mailTextArea.getText().getBytes(Charset.forName("utf-8"));
+      System.out.println(new String(bytechar, Charset.forName("utf-8")));
+      String escutf = new String(bytechar, Charset.forName("utf-8"));
+      String escjava = StringEscapeUtils.escapeJava(oop2.mailTextArea.getText());
+      String eschtml = StringEscapeUtils.escapeHtml4(new String(escjava));
     // Set the given String as this part's content,
     // with a MIME type of "text/plain".
-    message.setText(text);
+    MimeMultipart mp = new MimeMultipart();
+    MimeBodyPart mbp1= new MimeBodyPart();
+    String font = "courier";
+    String fontsize = "2";
+    String fontcolor = "#F70069";
+    String htmlText = "<font size =\"" + fontsize + "\" face=\"" + font + "\" color=\"" + fontcolor + "\" ><pre>" + eschtml.replaceAll("\\\\u",";&#x").replaceAll("\\\\n", "<br>") + ";"/*oop2.mailTextArea.getText().replaceAll(">", "&gt;").replaceAll("<", "&lt;").replaceAll(">", "&amp;") */+ "</pre></font>";
+    mbp1.setContent(htmlText,"text/html");
+    mp.addBodyPart(mbp1);
+    message.setContent(mp);
 
     // Send message
     Transport.send(message);

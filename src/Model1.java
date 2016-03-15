@@ -37,7 +37,7 @@ public class Model1 extends Thread {
             System.out.println(rcvmsg);
             stringProperty.set(rcvmsg);
             try {
-                TimeUnit.MILLISECONDS.sleep(1000);
+                TimeUnit.MILLISECONDS.sleep(64);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
