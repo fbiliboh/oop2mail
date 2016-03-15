@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.mail.MessagingException;
@@ -88,7 +87,7 @@ public class oop2 extends Application {
                                 if(hxv == 0) {bluehex = Integer.toHexString(255);} else {bluehex = Integer.toHexString(256 - hxv);}
 
 
-                                String hexborder = new String("-fx-font-size: 23px; -fx-btext-alignment: center; -fx-border-color: #" + redhex + bluehex + redhex + "; -fx-border-width: 3px; -fx-effect: dropshadow(gaussian, black, 10, 3.0, 100, 100); -fx-alignment: center; -fx-text-fill: #" + redhex + bluehex + redhex + "; -fx-fill-width: true;");
+                                String hexborder = new String("-fx-font-size: 23px; -fx-btext-alignment: center; -fx-border-color: #" + redhex + bluehex + redhex + "; -fx-border-width: 3px;");
                                 mailTextArea.setStyle(hexborder);
                                 hxv++;
 
@@ -161,13 +160,9 @@ public class oop2 extends Application {
                     e.printStackTrace();
                 }
 
-                mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: #00FF00; -fx-border-width: 3px; -fx-effect: dropshadow(gaussian, black, 10, 1.0, 100, 100); -fx-alignment: center; -fx-text-fill: green; -fx-fill-width: true;");
-
+                mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: #00FF00; -fx-border-width: 3px;");
                 System.out.println("Style: " + mailTextArea.getStyle());
-                Text sctext = new Text("e-Mail sent.");
-                //sctext.setStyle("-fx-alignment: center; -fx-effect: dropshadow(gaussian, black, 10, 1.0, 100, 100); -fx-fill-width: true;" +
-                        //" -fx-opacity: 2; -fx-text-alignment: center; -fx-text-fill: green");
-                mailTextArea.setText(sctext.getText());
+                mailTextArea.setText("E-Mail Sent!");
                 mailAdress.clear();
                 mailSubject.clear();
                 if (mailSubject.getStyle().contains("-fx-border-color: red;")) {
