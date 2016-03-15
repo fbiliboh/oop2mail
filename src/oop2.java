@@ -8,10 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,6 +24,7 @@ public class oop2 extends Application {
     public static TextArea mailTextArea;
     private Button sendButton;
     public static TextField mailAdress, mailSubject;
+    private SideBar sidebar;
     public int hxv = 0;
 
     /**
@@ -41,15 +39,22 @@ public class oop2 extends Application {
     @Override
     public void start(Stage primaryStage) throws MessagingException, ExecutionException, InterruptedException {
 
+        //Sidebar...
+        final Pane lyricPane = createSidebarContent();
+        sidebar = new SideBar(250,lyricPane); //
+        //sidebar.setMaxSize(600, 400);
+        VBox.setVgrow(lyricPane, Priority.ALWAYS);
+        //...Sidebar
+
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(allContent());
-        //borderPane.setRight(createSendButton());
+        borderPane.setRight(sidebar);
         borderPane.setPadding(new Insets(15, 15, 15, 15));
 
         StackPane root = new StackPane();
         root.getChildren().add(borderPane);
 
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 600, 400);
         scene.getStylesheets().add(oop2.class.getResource("styling.css").toExternalForm());
 
         primaryStage.setTitle("");
@@ -107,23 +112,38 @@ public class oop2 extends Application {
                                                           }
                                                       }
                                                   }
-
         );
         model1.start();
     }
 
+    private BorderPane createSidebarContent() {
+        // create some content to put in the sidebar.
+            final Text lyric = new Text();
+            lyric.getStyleClass().add("lyric-text");
+            final Button changeLyric = new Button("New Song");
+            changeLyric.getStyleClass().add("change-lyric");
+            changeLyric.setMaxWidth(Double.MAX_VALUE);
+            changeLyric.fire();
+            final BorderPane lyricPane = new BorderPane();
+            lyricPane.setCenter(lyric);
+            lyricPane.setBottom(changeLyric);
+
+            return lyricPane;
+    }
 
     private HBox allContent() throws InterruptedException, ExecutionException, MessagingException {
 
         HBox allContent = new HBox(2);
-        allContent.getChildren().addAll(createCenterGroup(), createSideMenu());
+        allContent.getChildren().addAll(createCenterGroup(),
+                                        createSideMenu());
         return allContent;
     }
 
 
     private VBox createCenterGroup() throws MessagingException, ExecutionException, InterruptedException {
+
         VBox controlBox = new VBox(5, createHeaderBox(),
-                createTextArea());
+                                      createTextArea());
         return controlBox;
     }
 
@@ -131,29 +151,13 @@ public class oop2 extends Application {
 
         Button btn = new Button("Fischen");
 
-
         VBox sideMenuButtons = new VBox(5);
-        sideMenuButtons.getChildren().addAll(btn);
-        //sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), iconOption);
-        //sideMenuButtons.setPadding(new Insets(35, 5, 10, 5));
-
+             sideMenuButtons.getChildren().addAll(sidebar.getControlButton());
+             //sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), iconOption);
+             //sideMenuButtons.setPadding(new Insets(35, 5, 10, 5));
 
         return sideMenuButtons;
     }
-
-    private HBox createFinalHeaderBox() throws InterruptedException, ExecutionException, MessagingException {
-
-        HBox headerBox = new HBox(2);
-        headerBox.setPadding(new Insets(10, 10, 10, 10));
-        headerBox.getStyleClass().add("vbox");
-        headerBox.getChildren().addAll(createHeaderTextFields(), createSendButton());
-
-        return headerBox;
-    }
-
-
-
-
 
     private TextArea createTextArea() {
 
@@ -168,7 +172,6 @@ public class oop2 extends Application {
         return mailTextArea;
     }
 
-
     private VBox createHeaderTextFields() {
 
         mailAdress = new TextField();
@@ -178,8 +181,8 @@ public class oop2 extends Application {
         mailSubject.setPromptText("Subject:");
 
         VBox headerVBox = new VBox(2);
-        headerVBox.setPrefWidth(Double.MAX_EXPONENT);
-        headerVBox.getChildren().addAll(mailAdress, mailSubject);
+             headerVBox.setPrefWidth(Double.MAX_EXPONENT);
+             headerVBox.getChildren().addAll(mailAdress, mailSubject);
 
         return headerVBox;
     }
@@ -224,7 +227,7 @@ public class oop2 extends Application {
 
                 mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: #00FF00; -fx-border-width: 3px; -fx-effect: dropshadow(gaussian, black, 10, 1.0, 100, 100); -fx-alignment: center; -fx-text-fill: green; -fx-fill-width: true;");
 
-                System.out.println("Style: " + mailTextArea.getStyle());
+                //System.out.println("Style: " + mailTextArea.getStyle());
                 Text sctext = new Text("e-Mail sent.");
                 //sctext.setStyle("-fx-alignment: center; -fx-effect: dropshadow(gaussian, black, 10, 1.0, 100, 100); -fx-fill-width: true;" +
                 //" -fx-opacity: 2; -fx-text-alignment: center; -fx-text-fill: green");
@@ -234,13 +237,8 @@ public class oop2 extends Application {
                 if (mailSubject.getStyle().contains("-fx-border-color: red;")) {
                     mailSubject.setStyle("-fx-border-color: gray; -fx-border-width: 0px;");
                 }
-
-
-
             }
         });
-
-        sendButton.setMinSize(50, 60);
 
         return sendButton;
 
