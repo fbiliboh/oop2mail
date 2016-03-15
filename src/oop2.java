@@ -2,14 +2,18 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import javax.mail.MessagingException;
@@ -26,6 +30,10 @@ public class oop2 extends Application {
     public static TextField mailAdress, mailSubject;
     private SideBar sidebar;
     public int hxv = 0;
+    private HTMLEditor htmlEditor;
+    private StackPane webStack;
+    private HTMLEditor editor;
+    private WebView view;
 
     /**
      * @param args the command line arguments
@@ -38,6 +46,7 @@ public class oop2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws MessagingException, ExecutionException, InterruptedException {
+
 
         //Sidebar...
         final Pane lyricPane = createSidebarContent();
@@ -143,23 +152,57 @@ public class oop2 extends Application {
     private VBox createCenterGroup() throws MessagingException, ExecutionException, InterruptedException {
 
         VBox controlBox = new VBox(5, createHeaderBox(),
-                                      createTextArea());
+                                      createStackPaneHtmlTextArea());
         return controlBox;
+    }
+
+    private StackPane createStackPaneHtmlTextArea() {
+
+        editor = new HTMLEditor();
+        editor.setHtmlText("<h1>The Gettysburg Address</h1><i>Four score and twenty years ago . . .</i><br/><img src='http://bluebuddies.com/gallery/Historical_Smurfs/jpg/Smurfs_Historical_Figure_20506_Abraham_Lincoln.jpg'/>");
+
+        view = new WebView();
+
+        webStack = new StackPane();
+        webStack.getChildren().addAll(editor, view);
+
+        return webStack;
     }
 
     private VBox createSideMenu() {
 
         Button btn = new Button("Fischen");
 
+        Label label  = new Label("Edit");
+              label.setRotate(-90);
+              label.setStyle("-fx-text-fill: black");
+
+        final ToggleButton editToggleButton = new ToggleButton();
+                           editToggleButton.setGraphic(new Group(label));
+
+        editToggleButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent arg0) {
+                webStack.getChildren().clear();
+                if (editToggleButton.isSelected()) {
+                    webStack.getChildren().addAll(view, editor);
+                } else {
+                    view.getEngine().loadContent(editor.getHtmlText());
+                    webStack.getChildren().addAll(editor, view);
+                }
+            }
+        });
+
+        editToggleButton.fire();
+
         VBox sideMenuButtons = new VBox(5);
-             sideMenuButtons.getChildren().addAll(sidebar.getControlButton());
+             sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), editToggleButton);
              //sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), iconOption);
              //sideMenuButtons.setPadding(new Insets(35, 5, 10, 5));
 
         return sideMenuButtons;
     }
 
-    private TextArea createTextArea() {
+    private TextArea createTextArea() { //not used, as html editor was added
 
         mailTextArea = new TextArea();
         mailTextArea.setPrefSize(Double.MAX_EXPONENT, Double.MAX_EXPONENT);
@@ -241,8 +284,5 @@ public class oop2 extends Application {
         });
 
         return sendButton;
-
     }
-
-
 }

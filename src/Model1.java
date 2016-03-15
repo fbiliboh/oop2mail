@@ -15,7 +15,6 @@ class Model1 extends Thread {
         setDaemon(true);
     }
 
-
     public String getString() {
         return stringProperty.toString();
     }
