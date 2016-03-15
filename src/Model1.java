@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Skynet on 15.03.2016.
  */
-public class Model1 extends Thread {
-    protected StringProperty stringProperty;
+class Model1 extends Thread {
+    protected static StringProperty stringProperty;
 
     public Model1() {
         stringProperty = new SimpleStringProperty(this, "str", "");
