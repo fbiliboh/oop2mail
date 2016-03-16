@@ -22,10 +22,12 @@ public class SideBar extends VBox {
     private Label label;
 
     /** creates a sidebar containing a vertical alignment of the given nodes */
-    SideBar(final double expandedWidth, Node... nodes) {
+    SideBar(final double expandedWidth,final double expandedHeight, Node... nodes) {
         getStyleClass().add("sidebar");
         this.setPrefWidth(expandedWidth);
         this.setMinWidth(0);
+        this.setPrefHeight(expandedHeight);
+        this.setMinHeight(0);
 
         // create a bar to hide and show.
         setAlignment(Pos.CENTER);

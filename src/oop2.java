@@ -1,3 +1,4 @@
+import com.sun.org.apache.xml.internal.security.Init;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -9,12 +10,15 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.mail.MessagingException;
 import java.util.concurrent.ExecutionException;
@@ -34,50 +38,53 @@ public class oop2 extends Application {
     private StackPane webStack;
     private HTMLEditor editor;
     private WebView view;
+    private VBox controlBox;
+    private HBox headerBox;
+    private VBox headerVBox;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
-
-
     }
 
     @Override
     public void start(Stage primaryStage) throws MessagingException, ExecutionException, InterruptedException {
 
+        primaryStage.initStyle(StageStyle.UNIFIED); // not working yet..
 
         //Sidebar...
         final Pane lyricPane = createSidebarContent();
-        sidebar = new SideBar(250,lyricPane); //
+        sidebar = new SideBar(150,10,lyricPane); //
         //sidebar.setMaxSize(600, 400);
         VBox.setVgrow(lyricPane, Priority.ALWAYS);
         //...Sidebar
 
         BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(allContent());
-        borderPane.setRight(sidebar);
-        borderPane.setPadding(new Insets(15, 15, 15, 15));
+                   borderPane.setCenter(allContent());
+                   borderPane.setRight(sidebar);
+                   borderPane.setPadding(new Insets(15, 15, 15, 15));
 
         StackPane root = new StackPane();
-        root.getChildren().add(borderPane);
+                  root.setStyle("-fx-opacity: 0.9; -fx-background-color: rgba(255, 255, 255, 0);"); // test
+                  root.getChildren().add(borderPane);
 
         Scene scene = new Scene(root, 600, 400);
-        scene.getStylesheets().add(oop2.class.getResource("styling.css").toExternalForm());
+              scene.setFill(Color.TRANSPARENT); // test
+              scene.getStylesheets().add(oop2.class.getResource("styling.css").toExternalForm());
 
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
+
         Label labelObservable = new Label();
         Label labelOldvalue = new Label();
         Label labelNewvalue = new Label();
 
         Model1 model1 = new Model1();
 
-        model1.stringProperty.addListener(new
-
-                                                  ChangeListener() {
+        model1.stringProperty.addListener(new ChangeListener() {
                                                       @Override
                                                       public void changed (ObservableValue observable, Object oldValue, Object newValue){
                                                           labelObservable.setText((String) observable.getValue());
@@ -128,31 +135,37 @@ public class oop2 extends Application {
     private BorderPane createSidebarContent() {
         // create some content to put in the sidebar.
             final Text lyric = new Text();
-            lyric.getStyleClass().add("lyric-text");
+                       lyric.getStyleClass().add("lyric-text");
             final Button changeLyric = new Button("New Song");
-            changeLyric.getStyleClass().add("change-lyric");
-            changeLyric.setMaxWidth(Double.MAX_VALUE);
-            changeLyric.fire();
+                         changeLyric.getStyleClass().add("change-lyric");
+                         //changeLyric.setMaxWidth(Double.MAX_VALUE);
+                         changeLyric.fire();
             final BorderPane lyricPane = new BorderPane();
-            lyricPane.setCenter(lyric);
-            lyricPane.setBottom(changeLyric);
+                             lyricPane.setCenter(lyric);
+                             lyricPane.setBottom(changeLyric);
 
             return lyricPane;
     }
 
     private HBox allContent() throws InterruptedException, ExecutionException, MessagingException {
 
-        HBox allContent = new HBox(2);
-        allContent.getChildren().addAll(createCenterGroup(),
-                                        createSideMenu());
+        HBox allContent = new HBox(8);
+             allContent.getChildren().addAll(createCenterGroup(),
+                                             createSideMenu());
+        HBox.setHgrow(controlBox, Priority.ALWAYS);
+
         return allContent;
     }
 
-
     private VBox createCenterGroup() throws MessagingException, ExecutionException, InterruptedException {
 
-        VBox controlBox = new VBox(5, createHeaderBox(),
-                                      createStackPaneHtmlTextArea());
+        controlBox = new VBox(8, createHeaderBox(),
+                                 createStackPaneHtmlTextArea());
+
+        controlBox.setStyle("-fx-opacity: 0.9; -fx-background-color: rgba(255, 255, 255, 0);"); // test
+
+        HBox.setHgrow(headerBox,Priority.ALWAYS);
+
         return controlBox;
     }
 
@@ -160,10 +173,15 @@ public class oop2 extends Application {
 
         editor = new HTMLEditor();
         editor.setHtmlText("<h1>The Gettysburg Address</h1><i>Four score and twenty years ago . . .</i><br/><img src='http://bluebuddies.com/gallery/Historical_Smurfs/jpg/Smurfs_Historical_Figure_20506_Abraham_Lincoln.jpg'/>");
+        editor.setStyle("-fx-opacity: 0.6"); // test
+        editor.setPrefSize(Double.MAX_EXPONENT, Double.MAX_EXPONENT);
 
         view = new WebView();
+        view.setBlendMode(BlendMode.DARKEN);
+        view.setPrefSize(Double.MAX_EXPONENT, Double.MAX_EXPONENT);
 
         webStack = new StackPane();
+        webStack.setStyle("-fx-border-color: black; -fx-background-color: limegreen; -fx-opacity: 0.6"); // test
         webStack.getChildren().addAll(editor, view);
 
         return webStack;
@@ -171,23 +189,28 @@ public class oop2 extends Application {
 
     private VBox createSideMenu() {
 
-        Button btn = new Button("Fischen");
+        Label labelToggleButton  = new Label("Edit");
+              labelToggleButton.setRotate(-90);
+              labelToggleButton.setStyle("-fx-text-fill: black");
 
-        Label label  = new Label("Edit");
-              label.setRotate(-90);
-              label.setStyle("-fx-text-fill: black");
+        Label labelButton  = new Label("??"); //If you use the Button, rename the Label "labelButton" properly!
+              labelButton.setRotate(-90);
+              labelButton.setStyle("-fx-text-fill: black");
 
         final ToggleButton editToggleButton = new ToggleButton();
-                           editToggleButton.setGraphic(new Group(label));
+                           editToggleButton.setGraphic(new Group(labelToggleButton));
+
+        final Button btn = new Button();
+                     btn.setGraphic(new Group(labelButton));
 
         editToggleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent arg0) {
                 webStack.getChildren().clear();
                 if (editToggleButton.isSelected()) {
-                    webStack.getChildren().addAll(view, editor);
+                    webStack.getChildren().addAll(editor);
                 } else {
                     view.getEngine().loadContent(editor.getHtmlText());
-                    webStack.getChildren().addAll(editor, view);
+                    webStack.getChildren().addAll(view);
                 }
             }
         });
@@ -195,7 +218,7 @@ public class oop2 extends Application {
         editToggleButton.fire();
 
         VBox sideMenuButtons = new VBox(5);
-             sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), editToggleButton);
+             sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), editToggleButton, btn);
              //sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), iconOption);
              //sideMenuButtons.setPadding(new Insets(35, 5, 10, 5));
 
@@ -219,21 +242,29 @@ public class oop2 extends Application {
 
         mailAdress = new TextField();
         mailAdress.setPromptText("Type in E-Mail-Adress");
+        mailAdress.setStyle("-fx-opacity: 0.7"); // test
+        mailAdress.setPrefWidth(Double.MAX_EXPONENT);
 
         mailSubject = new TextField();
         mailSubject.setPromptText("Subject:");
+        mailSubject.setStyle("-fx-opacity: 0.7"); // test
+        mailSubject.setPrefWidth(Double.MAX_EXPONENT);
 
-        VBox headerVBox = new VBox(2);
-             headerVBox.setPrefWidth(Double.MAX_EXPONENT);
-             headerVBox.getChildren().addAll(mailAdress, mailSubject);
+        headerVBox = new VBox(2);
+        headerVBox.getChildren().addAll(mailAdress, mailSubject);
 
         return headerVBox;
     }
 
     private HBox createHeaderBox() throws MessagingException, ExecutionException, InterruptedException {
 
-        HBox headerBox = new HBox(2);
-        headerBox.getChildren().addAll(createHeaderTextFields(), createSendButton());
+        headerBox = new HBox(2);
+        headerBox.getChildren().addAll(createHeaderTextFields(),
+                                       createSendButton());
+        headerBox.setStyle("-fx-background-color: darkblue"); // test
+        headerBox.setPadding(new Insets(10,10,10,10));        // test
+
+        HBox.setHgrow(headerVBox,Priority.ALWAYS);
 
         return headerBox;
     }
