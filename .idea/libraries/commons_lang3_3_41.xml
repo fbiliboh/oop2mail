@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="javax.mail">
+  <library name="commons-lang3-3.41">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../javax.mail.jar!/" />
+      <root url="jar://$USER_HOME$/Java/Libs/commons-lang3-3.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
