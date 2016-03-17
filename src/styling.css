@@ -6,11 +6,15 @@ and open the template in the editor.
 /*
     Created on : now..
     Author     : fpiplip
+    Author     : Tyler the human Compiler
 */
 
 .root{
     -fx-background-color: whitesmoke;
+    -fx-border-color: #4f4f4f;
+    -fx-border-width: 0.5px;
 }
+
 
 .button{
     -fx-background-color:
@@ -27,7 +31,7 @@ and open the template in the editor.
 }
 
 .button:hover{
-    -fx-border-color: lightseagreen;
+    -fx-border-color: #4f4f4f;
     -fx-border-radius:5;
 }
 .toggle-button{
@@ -45,17 +49,18 @@ and open the template in the editor.
 }
 
 .toggle-button:hover{
-    -fx-border-color: lightseagreen;
+    -fx-border-color: #4f4f4f;
     -fx-border-radius:5;
 }
 
 .vbox {
-    -fx-background-color: #2f4f4f;
+
+    -fx-background-color: #4f4f4f;
 }
 
 #mailTextArea{
-    -fx-control-inner-background: black;
-    -fx-text-fill: white;
+    -fx-control-inner-background: white;
+    -fx-text-fill: black;
 }
 
 #buttonyellowe{

@@ -1,4 +1,3 @@
-import com.sun.org.apache.xml.internal.security.Init;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -7,14 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -26,17 +22,18 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Created by fbiliboh on 06.03.2016.
+ * Created by ::Tyler the human Compiler::  on 06.03.2016.
  */
 public class oop2 extends Application {
 
     public static TextArea mailTextArea;
     private Button sendButton;
+    private Button colorButton;
     public static TextField mailAdress, mailSubject;
     private SideBar sidebar;
     public int hxv = 0;
-    private HTMLEditor htmlEditor;
-    private StackPane webStack;
-    private HTMLEditor editor;
+    public static StackPane webStack;
+    public static HTMLEditor editor;
     private WebView view;
     private VBox controlBox;
     private HBox headerBox;
@@ -56,7 +53,7 @@ public class oop2 extends Application {
 
         //Sidebar...
         final Pane lyricPane = createSidebarContent();
-        sidebar = new SideBar(150,10,lyricPane); //
+        sidebar = new SideBar(250,10,lyricPane); //
         //sidebar.setMaxSize(600, 400);
         VBox.setVgrow(lyricPane, Priority.ALWAYS);
         //...Sidebar
@@ -67,11 +64,13 @@ public class oop2 extends Application {
                    borderPane.setPadding(new Insets(15, 15, 15, 15));
 
         StackPane root = new StackPane();
-                  root.setStyle("-fx-opacity: 0.9; -fx-background-color: rgba(255, 255, 255, 0);"); // test
+                  //root.setStyle("-fx-background-color: rgba(255, 255, 255, 0);"); // test
+
                   root.getChildren().add(borderPane);
 
         Scene scene = new Scene(root, 600, 400);
-              scene.setFill(Color.TRANSPARENT); // test
+              //scene.setFill(Color.LIGHTGRAY); // test
+
               scene.getStylesheets().add(oop2.class.getResource("styling.css").toExternalForm());
 
         primaryStage.setTitle("");
@@ -96,31 +95,34 @@ public class oop2 extends Application {
                                                                   @Override
                                                                   public void run() {
                                                                       String incoming = newValue.toString();
-                                                                      if (incoming.contains("-fx-border-color: #C0C0C0;") == false && incoming.contains("-fx-border-color: #c0c0c0;") == false) {
+                                                              if ((hxv < 127) == true && (incoming.contains("-fx-border-color: #D") == false && incoming.contains("-fx-border-color: #d") == false
+                                                                      && incoming.contains("-fx-border-color: #E") == false && incoming.contains("-fx-border-color: #e") == false
+                                                                      && incoming.contains("-fx-border-color: #F") == false && incoming.contains("-fx-border-color: #f") == false)) {
                                                                           String redhex;
                                                                           String bluehex;
-                                                                          if (Integer.toHexString(hxv * 3).length() == 1) {
-                                                                              redhex = new String("0" + Integer.toHexString(hxv * 3));
+                                                                  if (Integer.toHexString(hxv * 2).length() == 1) {
+                                                                      redhex = new String("0" + Integer.toHexString(hxv * 2));
                                                                           } else {
-                                                                              redhex = Integer.toHexString(hxv * 3);
+                                                                      redhex = Integer.toHexString(hxv * 2);
 
                                                                           }
-                                                                          if (hxv == 0) {
-                                                                              bluehex = Integer.toHexString(255);
-                                                                          } else {
-                                                                              bluehex = Integer.toHexString(256 - hxv);
-                                                                          }
+
+                                                                  bluehex = Integer.toHexString(255 - ((hxv - (hxv % 4)) / 4));
 
 
-                                                                          String hexborder = new String("-fx-font-size: 23px; -fx-btext-alignment: center; -fx-border-color: #" + redhex + bluehex + redhex + "; -fx-border-width: 3px; -fx-effect: dropshadow(gaussian, black, 10, 3.0, 100, 100); -fx-alignment: center; -fx-text-fill: #" + redhex + bluehex + redhex + "; -fx-fill-width: true;");
-                                                                          mailTextArea.setStyle(hexborder);
+
+                                                                  String hexborder = new String("-fx-border-color: #" + redhex + bluehex + redhex + "; -fx-border-width: 3px;");
+                                                                  String edistyle = new String("-fx-alignment: center; -fx-text-fill: #" + redhex + bluehex + redhex + "; -fx-fill-width: true;");
+                                                                          editor.setStyle("-fx-border-color: #000; -fx-border-width: 1px;  -fx-font-size: 23px; -fx-text-alignment: center; " + edistyle);
+
+                                                                          webStack.setStyle(hexborder);
                                                                           hxv++;
 
                                                                       } else {
-                                                                          mailTextArea.setStyle("-fx-font-size: 10px; -fx-text-alignment: left; -fx-border-color: #C0C0C0; -fx-border-width: 0px;");
-                                                                          mailTextArea.clear();
-                                                                          hxv = 0;
-                                                                      }
+                                                                          editor.setHtmlText("");
+                                                                          editor.setStyle("-fx-border-color: #4f4f4f; -fx-border-width: 1px; -fx-font-size: 10px; -fx-text-alignment: left; -fx-alignment: left; -fx-text-fill: #000000; -fx-fill-width: false;");
+                                                                          webStack.setStyle("-fx-border-color: #d8d8d8; -fx-border-width: 3px;");
+                                                                          hxv = 0;}
 
                                                                   }
 
@@ -162,7 +164,7 @@ public class oop2 extends Application {
         controlBox = new VBox(8, createHeaderBox(),
                                  createStackPaneHtmlTextArea());
 
-        controlBox.setStyle("-fx-opacity: 0.9; -fx-background-color: rgba(255, 255, 255, 0);"); // test
+        controlBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0);"); // test
 
         HBox.setHgrow(headerBox,Priority.ALWAYS);
 
@@ -172,22 +174,23 @@ public class oop2 extends Application {
     private StackPane createStackPaneHtmlTextArea() {
 
         editor = new HTMLEditor();
-        editor.setHtmlText("<h1>The Gettysburg Address</h1><i>Four score and twenty years ago . . .</i><br/><img src='http://bluebuddies.com/gallery/Historical_Smurfs/jpg/Smurfs_Historical_Figure_20506_Abraham_Lincoln.jpg'/>");
-        editor.setStyle("-fx-opacity: 0.6"); // test
+        editor.setHtmlText("");
+        editor.setStyle("-fx-opacity: 1; -fx-control-inner-background: white; -fx-text-fill: black; -fx-border-color: #4f4f4f; -fx-border-width: 1px"); // test
         editor.setPrefSize(Double.MAX_EXPONENT, Double.MAX_EXPONENT);
 
         view = new WebView();
         view.setBlendMode(BlendMode.DARKEN);
+        //view.setStyle("-fx-border-color: black; -fx-border-insets: 5px 5px 5px 5px;");
         view.setPrefSize(Double.MAX_EXPONENT, Double.MAX_EXPONENT);
 
         webStack = new StackPane();
-        webStack.setStyle("-fx-border-color: black; -fx-background-color: limegreen; -fx-opacity: 0.6"); // test
+        webStack.setStyle("-fx-border-color: #d8d8d8; -fx-border-width: 3px; -fx-background-color: white; -fx-opacity: 1"); // test
         webStack.getChildren().addAll(editor, view);
 
         return webStack;
     }
 
-    private VBox createSideMenu() {
+    private VBox createSideMenu() throws InterruptedException, ExecutionException, MessagingException {
 
         Label labelToggleButton  = new Label("Edit");
               labelToggleButton.setRotate(-90);
@@ -218,7 +221,7 @@ public class oop2 extends Application {
         editToggleButton.fire();
 
         VBox sideMenuButtons = new VBox(5);
-             sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), editToggleButton, btn);
+        sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), editToggleButton, btn, createColorButton());
              //sideMenuButtons.getChildren().addAll(sidebar.getControlButton(), iconOption);
              //sideMenuButtons.setPadding(new Insets(35, 5, 10, 5));
 
@@ -231,7 +234,7 @@ public class oop2 extends Application {
         mailTextArea.setPrefSize(Double.MAX_EXPONENT, Double.MAX_EXPONENT);
         mailTextArea.setFocusTraversable(true);
         mailTextArea.setWrapText(true);
-        mailTextArea.setStyle("-fx-control-inner-background: black; -fx-text-fill: white; -fx-border-color: #c0c0c0; -fx-border-width: 0px;"); //set as ID with styling.css!
+        mailTextArea.setStyle("-fx-control-inner-background: white; -fx-text-fill: black; -fx-border-color: #e0e0e0; -fx-border-width: 0px;"); //set as ID with styling.css!
         //mailTextArea.requestFocus();
         mailTextArea.getStyleClass().add("vbox");
 
@@ -242,12 +245,12 @@ public class oop2 extends Application {
 
         mailAdress = new TextField();
         mailAdress.setPromptText("Type in E-Mail-Adress");
-        mailAdress.setStyle("-fx-opacity: 0.7"); // test
+        mailAdress.setStyle("-fx-opacity: 1"); // test
         mailAdress.setPrefWidth(Double.MAX_EXPONENT);
 
         mailSubject = new TextField();
         mailSubject.setPromptText("Subject:");
-        mailSubject.setStyle("-fx-opacity: 0.7"); // test
+        mailSubject.setStyle("-fx-opacity: 1"); // test
         mailSubject.setPrefWidth(Double.MAX_EXPONENT);
 
         headerVBox = new VBox(2);
@@ -261,12 +264,31 @@ public class oop2 extends Application {
         headerBox = new HBox(2);
         headerBox.getChildren().addAll(createHeaderTextFields(),
                                        createSendButton());
-        headerBox.setStyle("-fx-background-color: darkblue"); // test
-        headerBox.setPadding(new Insets(10,10,10,10));        // test
+        headerBox.setStyle("-fx-background-color: #f5f5f5"); // test
+        headerBox.setPadding(new Insets(0,0,0,0));        // test
 
         HBox.setHgrow(headerVBox,Priority.ALWAYS);
 
         return headerBox;
+    }
+
+
+    private Button createColorButton() throws MessagingException, ExecutionException, InterruptedException {
+
+        colorButton = new Button();
+        colorButton.setText("Rainbow Hex!");
+
+
+
+        colorButton.setStyle("-fx-text-fill: black");
+
+
+        colorButton.setOnAction(event -> {
+            int len = editor.getHtmlText().length();
+            Functions m1 = new Functions();
+
+            m1.makeTextColorAgain(0, len, "xxxxxx");});
+        return colorButton;
     }
 
     private Button createSendButton() throws MessagingException, ExecutionException, InterruptedException {
@@ -294,18 +316,18 @@ public class oop2 extends Application {
 
             } else {
                 try {
-                    BFH_EmailSender.send(UserVariables.user, passwd, mailAdress.getText(), mailSubject.getText(), mailTextArea.getText());
+                    BFH_EmailSender.send(UserVariables.user, passwd, mailAdress.getText(), mailSubject.getText(), editor.getHtmlText());
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
 
-                mailTextArea.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-border-color: #00FF00; -fx-border-width: 3px; -fx-effect: dropshadow(gaussian, black, 10, 1.0, 100, 100); -fx-alignment: center; -fx-text-fill: green; -fx-fill-width: true;");
-
+                editor.setStyle("-fx-font-size: 23px; -fx-text-alignment: center; -fx-alignment: center; -fx-text-fill: green; -fx-fill-width: true;");
+                webStack.setStyle("-fx-border-color: #00FF00; -fx-border-width: 3px; ");
                 //System.out.println("Style: " + mailTextArea.getStyle());
                 Text sctext = new Text("e-Mail sent.");
                 //sctext.setStyle("-fx-alignment: center; -fx-effect: dropshadow(gaussian, black, 10, 1.0, 100, 100); -fx-fill-width: true;" +
                 //" -fx-opacity: 2; -fx-text-alignment: center; -fx-text-fill: green");
-                mailTextArea.setText(sctext.getText());
+                editor.setHtmlText(sctext.getText());
                 mailAdress.clear();
                 mailSubject.clear();
                 if (mailSubject.getStyle().contains("-fx-border-color: red;")) {

@@ -5,7 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * Created by Skynet on 15.03.2016.
+ * Created by [fbiliboh] on 06.03.2016.
+ * Created by [::Tyler the human Compiler::  on 06.03.2016.
  */
 class Model1 extends Thread {
     protected static StringProperty stringProperty;
@@ -14,6 +15,7 @@ class Model1 extends Thread {
         stringProperty = new SimpleStringProperty(this, "str", "");
         setDaemon(true);
     }
+
 
     public String getString() {
         return stringProperty.toString();
@@ -32,8 +34,8 @@ class Model1 extends Thread {
     public void run() {
 
         while (true) {
-            String rcvmsg = oop2.mailTextArea.getStyle();
-            System.out.println(rcvmsg);
+            String rcvmsg = oop2.webStack.getStyle();
+
             stringProperty.set(rcvmsg);
             try {
                 TimeUnit.MILLISECONDS.sleep(64);

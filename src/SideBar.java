@@ -1,5 +1,6 @@
 /**
- * Created by fpiplip on 15.03.2016.
+ * Created by [fbiliboh] on 06.03.2016.
+ * Created by ::Tyler the human Compiler::  on 06.03.2016.
  */
 
 import javafx.animation.Animation;
